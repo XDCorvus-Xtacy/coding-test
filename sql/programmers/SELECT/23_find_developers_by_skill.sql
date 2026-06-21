@@ -15,10 +15,22 @@
 -- # 결과는 ID를 기준으로 오름차순 정렬해 주세요.
 
 -- 코드를 작성해주세요
+
+--method 1. use SUM()
 SELECT ID, EMAIL, FIRST_NAME, LAST_NAME
 FROM DEVELOPERS
 WHERE (SKILL_CODE & (SELECT SUM(CODE)
                      FROM SKILLCODES
                      WHERE NAME = 'Python'
                      OR NAME = 'C#')) != 0
+ORDER BY ID;
+
+
+-- method 2. use aggregate function (bit)
+SELECT ID, EMAIL, FIRST_NAME, LAST_NAME
+FROM DEVELOPERS
+WHERE SKILL_CODE & (SELECT BIT_OR(CODE)
+                     FROM SKILLCODES
+                     WHERE NAME = 'Python'
+                     OR NAME = 'C#') != 0
 ORDER BY ID;
