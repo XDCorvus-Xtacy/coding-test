@@ -41,9 +41,9 @@ graded AS (
 
 SELECT EMP_NO, EMP_NAME, GRADE,
     CASE GRADE
-        WHEN 'S' THEN SAL * 0.2
-        WHEN 'A' THEN SAL * 0.15
-        WHEN 'B' THEN SAL * 0.1
+        WHEN 'S' THEN SAL * 20 / 100
+        WHEN 'A' THEN SAL * 15 / 100
+        WHEN 'B' THEN SAL * 10 / 100
         ELSE 0
     END AS BONUS
 FROM graded
