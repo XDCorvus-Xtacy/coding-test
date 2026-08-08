@@ -44,3 +44,22 @@ def solution(N, stages):
             answer.append((stg, 0))
         
     return [x[0] for x in sorted(answer, key=lambda x: (-x[1], x[0]))]
+
+# sol 2. using list
+def solution(N, stages):
+    answer = []
+    count = [0] * (N + 2)
+    
+    for s in stages:
+        count[s] += 1
+        
+    rate = []
+    users = len(stages)
+    for i in range(1, N+1):
+        if users > 0:
+            rate.append((i, count[i]/users))
+            users -= count[i]
+        else:
+            rate.append((i, 0))
+            
+    return [x[0] for x in sorted(rate, key=lambda x: (-x[1], x[0]))]
