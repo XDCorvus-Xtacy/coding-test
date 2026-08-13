@@ -18,6 +18,7 @@ n개의 음이 아닌 정수들이 있습니다. 이 정수들을 순서를 바�
 각 숫자는 1 이상 50 이하인 자연수입니다.
 타겟 넘버는 1 이상 1000 이하인 자연수입니다.
 '''
+# sol 1. using DFS
 def solution(numbers, target):
     length = len(numbers)
     def dfs(index, total):
@@ -27,6 +28,17 @@ def solution(numbers, target):
     answer = dfs(0, 0)
     return answer
 
+# sol 2. using BFS
+def solution(numbers, target):
+    answer = 0
+    current_layer = [0]
+    for i in numbers:
+        new_layer = []
+        for num in current_layer:
+            new_layer.append(num+i)
+            new_layer.append(num-i)
+        current_layer = new_layer
+    return current_layer.count(target)
 
 # 타겟 넘버 (Programmers Lv.2, DFS/BFS)
 # 상태: 구조 이해 완료, 자력 설계는 미완 → 재현 대상
