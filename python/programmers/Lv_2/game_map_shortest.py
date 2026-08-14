@@ -36,3 +36,36 @@ def solution(maps):
                 dist[nd][md] = dist[current[0]][current[1]] + 1
                 q.append((nd,md))
     return -1
+
+'''
+[조건 세 개의 순서 — 순서가 중요]
+  1. 범위 안        ← 가드. 이게 먼저여야 인덱스 에러가 안 남
+  2. 갈 수 있는 칸  (벽 아님)
+  3. 아직 안 감     (방문 처리)
+
+[dist 배열의 세 역할]
+  - 거리 기록
+  - 방문 표시 (0이면 아직 안 감)
+  - 도달 가능 여부 (끝까지 0이면 못 가는 곳)
+
+[시작값]
+  "지나간 칸의 개수"를 세면 → dist[시작] = 1
+  "이동 횟수"를 세면        → dist[시작] = 0
+  문제가 뭘 묻는지에 따라 달라짐
+  
+
+BFS 최단 거리의 표준 로직
+
+q = deque([시작점])
+dist[시작] = 1
+
+while q:
+    현재 = q.popleft()
+    if 현재 == 도착점: return dist[도착]
+    for 방향 in 방향들:
+        이웃 = 현재 + 방향
+        if 범위 안 and 갈 수 있고 and 아직 안 감:
+            dist[이웃] = dist[현재] + 1
+            q.append(이웃)
+return -1
+'''
