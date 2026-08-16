@@ -24,3 +24,18 @@ def solution(s):
                 return False
             stack.pop()
     return not stack
+
+
+# sol 2. using Counter
+def solution(s):
+    cnt = 0
+    for c in s:
+        if c == '(':
+            cnt += 1
+        else:
+            cnt -= 1
+            if cnt < 0:
+                return False
+
+    return True if cnt == 0 else False
+
