@@ -23,3 +23,12 @@ def solution(citations):
                 count += 1
         if count >= h:
             return h
+
+# sol 2. using sort
+def solution(citations):
+    sorted_c = sorted(citations, reverse=True)
+    n = len(citations)
+    for i in range(n):
+        if sorted_c[i] < i+1:
+            return i
+    return n
