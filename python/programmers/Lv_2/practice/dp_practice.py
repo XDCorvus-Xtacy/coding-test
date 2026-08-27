@@ -35,3 +35,24 @@ def max_score(arr):
     for i in range(2, n):
         dp[i] = max(dp[i-1], dp[i-2] + arr[i])
     return dp[-1]
+
+
+
+
+
+
+'''
+N행 2열짜리 땅이 있습니다.  예: [[1, 2], [3, 4], [5, 6]]
+1행부터 한 행씩 내려오며, 각 행의 2칸 중 한 칸만 밟습니다.
+같은 열을 연속해서 밟을 수 없습니다.
+마지막 행까지 내려왔을 때 최대 점수는?
+'''
+def max_score2(arr):
+    n = len(arr)
+    dp = [[0, 0] for _ in range(n)]
+    dp[0][0] = arr[0][0]
+    dp[0][1] = arr[0][1]
+    for i in range(1, n):
+        dp[i][0] = dp[i-1][1] + arr[i][0]
+        dp[i][1] = dp[i-1][0] + arr[i][1]
+    return max(dp[-1])
