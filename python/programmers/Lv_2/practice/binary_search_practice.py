@@ -21,6 +21,9 @@ def binary_search(arr, target):
             right = mid - 1
     return -1   
 
+print('='*10)
+print('계단 1')
+print('='*10)
 arr = [1, 3, 5, 7, 9, 11]
 target = 4
 
@@ -104,6 +107,42 @@ bisect                  : "어디에 넣어야 정렬이 유지되나" = 삽입 
 
 from bisect import bisect_left, bisect_right
 
+print('='*10)
+print('계단 2')
+print('='*10)
 arr = [1, 3, 5, 7, 9, 11, 13]
 print(bisect_left(arr, 7))   # 3  = 7 미만의 개수
 print(bisect_right(arr, 7))  # 4  = 7 이하의 개수
+
+
+
+
+
+
+'''
+정수 n이 주어질 때, n의 정수 제곱근을 구하세요.
+(= 제곱해서 n 이하가 되는 가장 큰 정수)
+
+예) n = 16 → 4      (4*4 = 16)
+    n = 17 → 4      (4*4=16 ≤ 17, 5*5=25 > 17)
+    n = 24 → 4
+    n = 25 → 5
+'''
+def search_sqrt(n):
+    left, right = 1, n
+    answer = 0
+    while left <= right:
+        mid = (left + right) // 2       # 매번 새로 계산
+        if mid * mid <= n:
+            answer = mid                # 답 후보로 기록
+            left = mid + 1              # 더 큰 답이 있나 찾아본다
+        else:
+            right = mid - 1             # mid는 탈락, 작은 쪽만
+    return answer
+
+print('='*10)
+print('계단 3')
+print('='*10)
+lst = [16,17, 24, 25, 1]
+for i in lst:
+  print(search_sqrt(i))
