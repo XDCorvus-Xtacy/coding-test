@@ -58,3 +58,40 @@ def solution(arr, target):
     if dfs(path, arr[:], 0):
         return path
     return None
+
+
+
+##########################################
+# 계단 3
+##########################################
+'''
+간선 목록이 주어집니다. 시작점에서 출발해 모든 간선을 한 번씩 사용하는
+경로가 있으면 True, 없으면 False를 반환하세요.
+
+예) edges = [["A","B"], ["B","C"], ["C","A"]], start = "A"
+    → True   (A→B→C→A, 간선 3개 모두 사용)
+
+    edges = [["A","B"], ["C","D"]], start = "A"
+    → False  (A→B 후 막힘. C-D를 못 씀)
+'''
+def solution(edges, start):
+    graph = {edge[0]: [] for edge in edges}
+    for edge in edges:
+        graph[edge[0]].append(edge[1])
+    path = [start]
+
+    def dfs(vertex):
+        if len(edges) + 1 == len(path):
+            return True
+
+        for idx in range(len(graph.get(vertex, []))):
+            next_vertex = graph[vertex].pop(idx)
+            path.append(next_vertex)
+
+            if dfs(next_vertex):
+                return True
+
+            path.pop()
+            graph[vertex].insert(idx, next_vertex)
+
+        return False
