@@ -95,3 +95,5 @@ def solution(edges, start):
             graph[vertex].insert(idx, next_vertex)
 
         return False
+    
+    return dfs(start)
