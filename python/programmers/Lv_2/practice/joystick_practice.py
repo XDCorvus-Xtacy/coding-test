@@ -1,3 +1,4 @@
+# 계단 1
 '''
 turn_cost(n, i, j)
 
@@ -11,3 +12,23 @@ def turn_cost(n, i, j):
     route_2 = 2*i + n-j
     route_3 = 2*(n-j) + i
     return min(route_1, route_2, route_3)
+
+
+
+# 계단 2
+'''
+find_j(name, i)
+
+i 다음부터 'A'가 아닌 첫 위치를 반환
+
+name = "BABAAAB"
+        0123456
+
+예) find_j(name, 0)  →  2
+    find_j(name, 2)  →  6
+'''
+def find_j(name, i):
+    for j in range(i+1, len(name)):
+        if name[j] != 'A':
+            return j
+    return len(name)
