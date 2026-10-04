@@ -62,3 +62,23 @@ def find_j(name, i):
         if name[j] != 'A':
             return j
     return len(name)
+
+
+
+# 계단 3
+def solution(name):
+    # 상하 조작
+    n = len(name)
+    vertical = 0
+    for c in name:
+        idx = ord(c) - ord('A')
+        vertical +=  min(idx, 26 - idx)
+
+    # 좌우 조작
+    horizon = turn_cost(n, 0, find_j(name, 0))
+    for i in range(1, n):
+        cur = turn_cost(n, i, find_j(name, i))
+        if horizon > cur:
+            horizon = cur
+
+    return vertical + horizon
