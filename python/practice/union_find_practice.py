@@ -76,7 +76,10 @@ def find_compress(parent, x):
 '''
 def is_connected(parent, a, b):
     """a와 b가 이미 같은 무리면 True"""
-    # 여기 작성
+    if find_compress(parent, a) == find_compress(parent, b):
+        return True
+    else:
+        return False
 
 
 if __name__ == "__main__":
