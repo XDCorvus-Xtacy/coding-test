@@ -23,29 +23,32 @@ n    costs                                          return
 '''
 def solution(n, costs):
     cost = sorted(costs, key=lambda x: x[2])
+    parent = [x for x in range(n)]
 
     def find_compress(parent, x):
-      if parent[x] == x:
-          return x
+        if parent[x] == x:
+            return x
 
-      parent[x] = find_compress(parent, parent[x])
+        parent[x] = find_compress(parent, parent[x])
 
-      return parent[x]
+        return parent[x]
 
     def union(parent, a, b):
-      president = find_compress(parent, a)
-      move = find_compress(parent, b)
-      parent[move] = president
+        president = find_compress(parent, a)
+        move = find_compress(parent, b)
+        parent[move] = president
 
     def is_connected(parent, a, b):
-      if find_compress(parent, a) == find_compress(parent, b):
-          return True
-      else:
-          return False
+        if find_compress(parent, a) == find_compress(parent, b):
+            return True
+        else:
+            return False
 
     answer = 0
     
     for i in cost:
-      pass
-    
+        if not is_connected(parent, i[0], i[1]):
+            answer += i[2]
+            union(parent, i[0], i[1])
+
     return answer
