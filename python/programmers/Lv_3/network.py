@@ -14,7 +14,7 @@
 i번 컴퓨터와 j번 컴퓨터가 연결되어 있으면 computers[i][j]를 1로 표현합니다.
 computer[i][i]는 항상 1입니다.
 ''' 
-def solution(n, computers):
+def solution_dfs(n, computers):
     visited = [0]*n
     cnt = 0
     
@@ -30,3 +30,38 @@ def solution(n, computers):
             cnt +=1
     
     return cnt
+
+
+def solution_union_find(n, computers):
+    parent = [x for x in range(n)]
+    answer = 0
+
+    def find(parent, a):
+        if parent[a] == a:
+            return a
+        
+        parent[a] = find(parent, parent[a])
+
+        return parent[a]
+
+    def union(parent, a, b):
+        present = find(parent, a)
+        move = find(parent, b)
+        parent[move] = present
+
+    def is_connected(parent, a, b):
+        if find(parent, a) == find(parent, b):
+            return True
+        else:
+            return False
+    
+    for i in range(n):
+        for j in range(i, n):
+            if computers[i][j] == 1 and  not is_connected(parent, i, j):
+                union(parent, i, j)
+
+    for i in range(n):
+        if parent[i] == i:
+            answer += 1
+    
+    return answer
