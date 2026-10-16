@@ -21,6 +21,7 @@ return 하도록 solution 함수를 완성하세요.
 triangle                                                  result
 [[7], [3, 8], [8, 1, 0], [2, 7, 4, 4], [4, 5, 2, 6, 5]]   30
 '''
+# solution 1: top-down
 import copy
 def solution(triangle):
     dp = copy.deepcopy(triangle)
@@ -38,3 +39,18 @@ def solution(triangle):
                 dp[i][j] += dp[i-1][j]
 
     return max(dp[height-1])
+
+
+# solution 2: bottom-up
+import copy
+def solution_bottom_up(triangle):
+    dp = copy.deepcopy(triangle)
+    height = len(triangle)
+    for i in range(height-2, -1, -1):
+        for j in range(i+1):
+            if dp[i+1][j] > dp[i+1][j+1]:
+                dp[i][j] += dp[i+1][j]
+            else:
+                dp[i][j] += dp[i+1][j+1]
+
+    return dp[0][0]
