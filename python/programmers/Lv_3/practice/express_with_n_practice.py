@@ -24,7 +24,9 @@ def combine(a, b):
 
 
 # 계단 2: dp[3]까지 직접 만들기
-dp = [set() for _ in range(3)]
-dp[0] = {5}
-dp[1] = {55} | combine(dp[0], dp[0])
-dp[2] = {555} | combine(dp[1], dp[0])
+n = 4   # 5를 4개까지 쓰는 dp 작성
+dp = [set() for _ in range(n+1)]
+dp[1] = {5}
+dp[2] = {55} | combine(dp[1], dp[1])
+dp[3] = {555} | combine(dp[2], dp[1])
+dp[4] = {5555} | combine(dp[3], dp[1]) | combine(dp[2], dp[2])
