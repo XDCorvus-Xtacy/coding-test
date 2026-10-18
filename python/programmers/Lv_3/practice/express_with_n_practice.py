@@ -20,3 +20,11 @@ def combine(a, b):
             if j != 0:
                 result.add(i//j)
     return result
+
+
+
+# 계단 2: dp[3]까지 직접 만들기
+dp = [set() for _ in range(3)]
+dp[0] = {5}
+dp[1] = {55} | combine(dp[0], dp[0])
+dp[2] = {555} | combine(dp[1], dp[0])
