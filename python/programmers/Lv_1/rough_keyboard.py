@@ -35,8 +35,21 @@ targets의 원소는 알파벳 대문자로만 이루어져 있습니다.
 '''
 def solution(keymap, targets):
     keypad = {}
+    answer = []
+
     for keys in keymap:
         for idx in range(len(keys)):
-            pass
-            
+            if keypad.get(keys[idx], len(keys)) > idx:
+                keypad[keys[idx]] = idx
+
+    for target in targets:
+        result = 0
+        for c in target:
+            if c not in keypad:
+                result = -1
+                break
+            else:
+                result += keypad[c] + 1
+        answer.append(result)
+
     return answer
