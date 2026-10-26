@@ -30,3 +30,17 @@ dp[1] = {5}
 dp[2] = {55} | combine(dp[1], dp[1])
 dp[3] = {555} | combine(dp[2], dp[1])
 dp[4] = {5555} | combine(dp[3], dp[1]) | combine(dp[2], dp[2])
+
+
+
+# 계단 3: 계단 2를 반복문으로 만들기
+n = 4   # 5를 4개까지 쓰는 dp 작성
+N = input()
+dp = [set() for _ in range(n+1)]
+
+for i in range(1, n+1):
+    dp[i] = {int(N*i)}
+    for j in range(1, i//2 + 1):
+        dp[i] = dp[i] | combine(dp[i-j], dp[j])
+    
+    print(len(dp[i]))   # 1 5 18 66
