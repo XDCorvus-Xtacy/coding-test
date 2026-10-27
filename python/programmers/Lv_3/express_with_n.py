@@ -24,5 +24,26 @@ N   number   return
 예제 #2: 11 = 22 / 2와 같이 2를 3번만 사용하여 표현할 수 있습니다.
 '''
 def solution(N, number):
-    answer = 0
-    return answer
+
+    def combine(a, b):
+        result = set()
+        for i in a:
+            for j in b:
+                result.update({i+j, i-j, i*j, j-i})
+                if i != 0:
+                    result.add(j//i)
+                if j != 0:
+                    result.add(i//j)
+        return result
+
+    dp = [set() for _ in range(9)]   # 제한사항: 최솟값이 8보다 크면 return -1
+
+    for i in range(1, 9):
+        dp[i] = {int(str(N)*i)}
+        for j in range(1, i//2 + 1):
+            dp[i] = dp[i] | combine(dp[i-j], dp[j])
+        
+        if number in dp[i]:
+            return i
+
+    return -1
