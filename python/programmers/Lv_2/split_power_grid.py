@@ -17,10 +17,6 @@ n    wires                                              result
 4    [[1,2],[2,3],[3,4]]                                0
 7    [[1,2],[2,7],[3,7],[3,4],[4,5],[6,7]]              1
 '''
-# 버린 설계 1: 유니온-파인드로 합친 뒤 이정표를 바꿔 끊기 → 굳이 반복하지 않고 한번에 하는 길이 보여서
-# 버린 설계 2: 대표 대신 "다음 정점"을 기록 → 유니온-파인드를 버리면서 버림
-# 버린 설계 3: 그래프를 한 방향(v1 → v2)으로만 기록 → 한 방향으로만 기록하면 root를 못 찾음
-
 def solution_dfs(n, wires):
     graph = {x: [] for x in range(1, n+1)}
     for a, b in wires:
@@ -41,4 +37,31 @@ def solution_dfs(n, wires):
         visited[a] = 1          # ② 끊은 전선의 반대쪽 끝을 막음
         s = dfs(b)              # b 쪽 송전탑 수
         result = min(result, abs(n - 2*s))   # ③ 반대쪽 = n - s
+    return result
+
+
+def solution_union_find(n, wires):
+    parent = [x for x in range(n+1)]
+
+    def find_parent(a):
+        if parent[a] == a:
+            return a
+        parent[a] = find_parent(parent[a])
+        return parent[a]                      # ② 빠졌던 줄
+
+    def combine(a, b):
+        parent[find_parent(b)] = find_parent(a)
+
+    result = n
+    for i in wires:
+        parent = [x for x in range(n+1)]      # 전선마다 새로 (작성하신 그대로)
+        for j in wires:
+            if i != j:
+                combine(j[0], j[1])
+
+        s = 0                                 # ① 1번과 같은 무리 세기
+        for x in range(1, n+1):
+            if find_parent(x) == find_parent(1):
+                s += 1
+        result = min(result, abs(n - 2*s))
     return result
