@@ -12,27 +12,51 @@
 money           return
 [1, 2, 3, 1]    4
 '''
-def solution(money):
-    answer = 0
-    return answer
-
-
 # 계단 1: 집이 일렬일 때 (첫 집과 마지막 집은 이웃이 아님)
-def solve_line(money):
-    length = len(money)
-    dp = [0]*length
-    dp[0] = money[0]
-    dp[1] = money[1]
-    dp[2] = money[0] + money[2]
+def solve_line(dp):
+    length = len(dp)
 
     for i in range(3, length):
-        dp[i] = max(dp[i-2] + money[i], dp[i-3] + money[i])
+        dp[i] = max(dp[i-2] + money[i], dp[i-1])
 
     return max(dp[-1], dp[-2])
 
 
-print(solve_line([1, 2, 3, 1]))          # 기대값: 4
-print(solve_line([2, 7, 9, 3, 1]))       # 기대값: 12
-print(solve_line([5, 1, 1, 5]))          # 기대값: 10 (i-3에서 오는 경우)
-print(solve_line([1, 2, 3]))             # 기대값: 4  (가장 짧은 입력)
-print(solve_line([1, 100, 1, 1, 100]))   # 기대값: 200
+
+# 계단 2: 원형 — 두 경우로 나눠 solve_line 재사용
+def solution(money):
+    if len(money) == 3:
+        return max(money)
+
+    def solve_line(dp):
+        length = len(dp)
+
+        for i in range(3, length):
+            dp[i] = max(dp[i-2] + money[i], dp[i-1])
+
+        return max(dp[-1], dp[-2])
+
+
+    length = len(money)
+    dp_one = [0]*(length-1)     # money[0]을 포함한 경우
+    dp_two = [0]*length         # money[0]을 포함하지 않은 경우
+
+    dp_one[0] = money[0]
+    dp_one[1] = dp_one[0]
+    dp_one[2] = money[0] + money[2]
+
+    one_return = solve_line(dp_one)
+    
+    dp_two[0] = 0
+    dp_two[1] = money[1]
+    dp_two[2] = max(money[1], money[2])
+
+    two_return = solve_line(dp_two)
+
+    return max(one_return, two_return)
+
+print(solution([1, 2, 3, 1]))          # 기대값: 4  (공식 예시)
+print(solution([1, 2, 3]))             # 기대값: 3  (집 3개: 하나만 털 수 있음)
+print(solution([5, 1, 1, 5]))          # 기대값: 6  (0번과 3번은 이웃)
+print(solution([1, 100, 1, 1, 100]))   # 기대값: 200  (1번 + 4번, 둘은 이웃이 아님)
+print(solution([0, 0, 0]))             # 기대값: 0
