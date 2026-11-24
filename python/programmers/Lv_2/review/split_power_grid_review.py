@@ -11,7 +11,8 @@ n개의 송전탑이 전선으로 하나의 트리 형태로 연결되어 있습
 - 1 ≤ v1 < v2 ≤ n
 - 하나의 트리 형태가 아닌 전력망은 입력으로 주어지지 않음
 '''
-def solution(n, wires):
+# solution 1: dfs
+def solution_dfs(n, wires):
     graph = {x: [] for x in range(1, n+1)}
     for a, b in wires:
         graph[a].append(b)
@@ -40,8 +41,46 @@ def solution(n, wires):
     return answer
 
 
-print(solution(9, [[1,3],[2,3],[3,4],[4,5],[4,6],[4,7],[7,8],[7,9]]))   # 기대값: 3
-print(solution(4, [[1,2],[2,3],[3,4]]))                                 # 기대값: 0
-print(solution(7, [[1,2],[2,7],[3,7],[3,4],[4,5],[6,7]]))               # 기대값: 1
-print(solution(3, [[1,3],[2,3]]))                                       # 기대값: 1
-print(solution(2, [[1,2]]))                                             # 기대값: 0
+print(solution_dfs(9, [[1,3],[2,3],[3,4],[4,5],[4,6],[4,7],[7,8],[7,9]]))  # 기대값: 3
+print(solution_dfs(4, [[1,2],[2,3],[3,4]]))                                # 기대값: 0
+print(solution_dfs(7, [[1,2],[2,7],[3,7],[3,4],[4,5],[6,7]]))              # 기대값: 1
+print(solution_dfs(3, [[1,3],[2,3]]))                                      # 기대값: 1
+print(solution_dfs(2, [[1,2]]))                                            # 기대값: 0
+
+
+
+# solution 2: union-find
+def solution_union_find(n, wires):
+    def find(a):
+        if parent[a] == a:
+            return a
+
+        parent[a] = find(parent[a])
+        
+        return parent[a]
+
+    def combine(a, b):
+        parent[find(a)] = find(b)
+
+    result = n
+
+    for i in wires:
+        parent = [x for x in range(n+1)]
+        for j in wires:
+            if i != j:
+                combine(j[0], j[1])
+
+        s = 0
+        for x in range(1, n+1):
+            if find(i[0]) == find(x):
+                s += 1
+        result = min(result, abs(n - 2*s))
+
+    return result
+
+
+print(solution_union_find(9, [[1,3],[2,3],[3,4],[4,5],[4,6],[4,7],[7,8],[7,9]]))
+print(solution_union_find(4, [[1,2],[2,3],[3,4]]))
+print(solution_union_find(7, [[1,2],[2,7],[3,7],[3,4],[4,5],[6,7]]))
+print(solution_union_find(3, [[1,3],[2,3]]))
+print(solution_union_find(2, [[1,2]]))
